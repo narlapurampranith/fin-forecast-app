@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, TrendingDown, Target, CreditCard, PiggyBank, AlertTriangle, Plus } from "lucide-react";
 import { useState } from "react";
+import CodeDisplay from "./CodeDisplay";
+import { generateTransactionCode } from "@/utils/codeGenerator";
 
 const Dashboard = () => {
   const [totalBalance] = useState(2847.50);
@@ -16,10 +18,10 @@ const Dashboard = () => {
   const savingsPercentage = (currentSavings / savingsGoal) * 100;
 
   const recentTransactions = [
-    { id: 1, description: "Starbucks Coffee", amount: -4.85, category: "Food & Drinks", date: "Today", type: "expense" },
-    { id: 2, description: "Part-time Job", amount: +320.00, category: "Income", date: "Yesterday", type: "income" },
-    { id: 3, description: "Grocery Store", amount: -67.42, category: "Food & Drinks", date: "2 days ago", type: "expense" },
-    { id: 4, description: "Netflix Subscription", amount: -15.99, category: "Entertainment", date: "3 days ago", type: "expense" },
+    { id: 1, code: generateTransactionCode(), description: "Starbucks Coffee", amount: -4.85, category: "Food & Drinks", date: "Today", type: "expense" },
+    { id: 2, code: generateTransactionCode(), description: "Part-time Job", amount: +320.00, category: "Income", date: "Yesterday", type: "income" },
+    { id: 3, code: generateTransactionCode(), description: "Grocery Store", amount: -67.42, category: "Food & Drinks", date: "2 days ago", type: "expense" },
+    { id: 4, code: generateTransactionCode(), description: "Netflix Subscription", amount: -15.99, category: "Entertainment", date: "3 days ago", type: "expense" },
   ];
 
   const budgetCategories = [
@@ -176,6 +178,9 @@ const Dashboard = () => {
         </Card>
       </div>
 
+      {/* Unique Code Generation */}
+      <CodeDisplay />
+
       {/* Recent Transactions */}
       <Card className="bg-gradient-card shadow-medium border-0">
         <CardHeader>
@@ -199,6 +204,9 @@ const Dashboard = () => {
                     <div className="flex items-center space-x-2 mt-1">
                       <Badge variant="secondary" className="text-xs">
                         {transaction.category}
+                      </Badge>
+                      <Badge variant="outline" className="text-xs font-mono">
+                        {transaction.code}
                       </Badge>
                       <span className="text-xs text-muted-foreground">{transaction.date}</span>
                     </div>
